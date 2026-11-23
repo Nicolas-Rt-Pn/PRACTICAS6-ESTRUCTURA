@@ -25,26 +25,90 @@ public class ArbolDecision {
 
     //Ejercicio1
     public boolean esExtendido() {
-        throw new UnsupportedOperationException("Falta implementar Ejercicio 1");
+
+        if(raiz == null) return true;
+        else if(raiz.isLeaf()) return true;
+        else if(raiz.left()!=null && raiz.right()!=null){
+            return esExtendido(raiz.left()) && esExtendido(raiz.right());
+        }
+        else return false;
+    }
+
+    private boolean esExtendido(BinaryNode<String> r){
+        if(r.isLeaf()) return true;
+        else if(r.left()!=null && r.right()!=null){
+            return esExtendido(r.left()) && esExtendido(r.right());
+        }
+        else return false;
     }
 
 
     //Ejercicio2
     public int numAnimales() {
-        throw new UnsupportedOperationException("Falta implementar Ejercicio 2");
+
+        if(raiz==null) return 0;
+        else if(raiz.isLeaf()) return 1;
+        else return numAnimales(raiz.left()) + numAnimales(raiz.right());
+    }
+    private int numAnimales(BinaryNode<String> r){
+        if(r.isLeaf()) return 1;
+        else return numAnimales(r.left()) + numAnimales(r.right());
     }
 
 
     //Ejercicio3
     public List<String> animales() {
-        throw new UnsupportedOperationException("Falta implementar Ejercicio 3");
+        List<String> l = new ArrayList<>();
+        if(raiz == null) return l;
+        else if(raiz.isLeaf()) {
+            l.add(raiz.getData());
+            return l;
+        }
+        else {
+            agregar(raiz.left(), l);
+            agregar(raiz.right(), l);
+        }
+        return l;
+    }
+
+    private void agregar(BinaryNode<String> r, List<String> l){
+        if(r == null) return;
+        else if(r.isLeaf()) l.add(r.getData());
+        else{
+            agregar(r.left(), l);
+            agregar(r.right(), l);
+        }
     }
 
 
 
     //Ejercicio 4
     public List<String> camino (String elem) {
-        throw new UnsupportedOperationException("Falta implementar Ejercicio 4");
+        List<String> l = new LinkedList<>();
+        if(raiz == null) return l;
+        else if(raiz.isLeaf()){
+            if(raiz.getData().equals(elem)){
+                l.add(elem);
+                return l;
+            }
+            else return l;
+        }
+        else if (raiz.getData().equals(elem)) {
+            l.add(elem);
+        }
+        else{
+            if(build(raiz.left(), l, elem) || build(raiz.left(), l, elem)) l.add(0, raiz.getData());
+        }
+        return l;
+    }
+    private boolean build(BinaryNode<String> r, List<String> l, String e){
+        if(r == null) return false;
+        else if(r.getData().equals(e)) {
+            l.add(0, r.getData());
+            return true;
+        }
+        else if(build(r.left(), l, e) || build(r.left(), l, e)) l.add(0, r.getData());
+        return false;
     }
 
 
